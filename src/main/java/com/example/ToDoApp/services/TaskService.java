@@ -8,6 +8,8 @@ import java.util.List;
 
 @Service
 public class TaskService {
+
+    //getting access to database
     private final TaskRepository taskRepository;
 
     public TaskService(TaskRepository taskRepository) {
@@ -24,5 +26,14 @@ public class TaskService {
         task.setCompleted(false);
         taskRepository.save(task);
 
+    }
+    public void deleteTask(Long id){
+        taskRepository.deleteById(id);
+    }
+    public void toggleTask(Long id){
+        Task task=taskRepository.findById(id)
+                .orElseThrow(()->new IllegalArgumentException("Invalid Task Id"));
+        task.setCompleted(!task.isCompleted());
+        taskRepository.save(task);
     }
 }
